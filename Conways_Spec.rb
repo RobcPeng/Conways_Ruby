@@ -1,24 +1,15 @@
 require 'rspec'
-require_relative 'Conways'
+require_relative 'Conways.rb'
 
-describe 'Conways' do
-  context 'when there are less than two neighbours' do
-    it 'the cell dies out of isolation' do
+describe 'Game of Life' do
+  context 'creating a world' do
+    subject { World.new }
+    it 'creates a new world' do
+      expect(subject.is_a?(World))
     end
-  end
-
-  context 'when there are two or three neighbours' do
-    it 'continues living' do
-    end
-  end
-
-  context 'when there are more than three neighbours' do
-    it 'dies out of overcrowding' do
-    end
-  end
-
-  context 'when there are exactly three live neighbours' do
-    it 'a cell is born' do
+    it 'should have a determined width and height' do
+      expect(subject.should response_to(:width))
+      expect(subject.should response_to(:heigjt))
     end
   end
 end

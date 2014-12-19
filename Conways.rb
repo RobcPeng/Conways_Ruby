@@ -1,7 +1,10 @@
-class Cell
-	
-	def neighbors_count
-    return 0
-	end
+
+
+class World
+  attr_accessor :cells, :width, :columns
+
+  def initialize(width, height)
+    @cells = []
+  end
 
 end
