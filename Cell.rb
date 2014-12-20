@@ -1,8 +1,7 @@
 require_relative 'Conways'
 
 class Cell
-  attr_accessor :x, :y, :world
-
+  attr_accessor :x, :y, :alive, :world
   def initialize(world, x, y)
     @x = x
     @y = y

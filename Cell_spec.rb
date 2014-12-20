@@ -18,7 +18,7 @@ describe 'Cells' do
     end
 
     it 'creates a cell value that is false on initalization' do
-      expect(world.cells[0][0]).to be(false)
+      expect(world.cells[cellx][celly].alive?).to be(false)
     end
 
   end

@@ -24,5 +24,9 @@ describe 'Game of Life' do
         expect(arr.is_a?(Array))
       end
     end
+
+    it'starts up with a proper density' do
+
+    end
   end
 end
