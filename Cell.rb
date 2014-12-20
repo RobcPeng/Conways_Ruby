@@ -6,7 +6,6 @@ class Cell
   def initialize(world, x, y)
     @x = x
     @y = y
-    @world = @ world
     @alive = false
   end
 
