@@ -1,70 +1,75 @@
-# Class World
 require_relative 'Cell.rb'
 
+# Public: Various methods that are useful for performing 
+# Conway's game of life
+#
 class World
   attr_accessor :cells, :width, :height
+
+  # Public: Initializes the grid with all cells as dead
+  #
+  # width - width of the grid
+  # height - height of the grid
+  #
+  #
   def initialize(width, height)
     @width = width
     @height = height
     @cells =  Array.new(height) do |col|
                 Array.new(width) do |row|
-                  Cell.new(row, col)  
+                  Cell.new(row, col)
                 end
               end
     print_neat
   end
 
-  def populate(density) #any value above 100 will print the entire graph to be true
+  # Public: births a certain amount of cells based off a rough user input
+  #
+  # density - a density (by percentage)
+  # any value above 100 will print the entire world to be populated
+  #
+  #
+  def populate(density) 
     game_density = density
     @cells.each do |row|
       row.each do |col|
-        if rand(100) > game_density
-          col.toggle
-        end
+        col.toggle if rand(99) + 1 <= game_density
       end
     end
     update_neighbours
   end
 
-  def print_neat()
+  # Public: Prints the world out neatly in the command line
+  #
+  #
+  def print_neat
     alive = 0
     dead = 0
     @cells.each do |row|
-      print "|"
+      print '|'
       row.each do |col|
         if col.alive?
           print 'X|'
-          alive = alive + 1
+          alive += 1
         else
           print ' |'
-          dead = dead + 1
+          dead += 1
         end
       end
       print "\n"
     end
     print "Amount alive is : #{alive} \n"
-    print "Amount dead is : #{dead} \n" 
+    print "Amount dead is : #{dead} \n"
   end
 
-  def next_iteration
-    @cells.each do |row|
-      row.each do |col|
-        if col.neighbours < 2
-          col.kill
-        end
-        if col.neighbours > 3
-          col.kill
-        end
-        if col.neighbours == 3
-          col.born
-        end
-      end
-    end
-    update_neighbours
-  end
-
+  # Public: Takes the user input about the amount of steps that you want the game
+  # and prints it out
+  #
+  # steps - the amount of steps the game will do
+  #
+  #
   def play(steps)
-    for i in 0..steps
+    (0..steps).each do
       print_neat
       next_iteration
     end
@@ -72,55 +77,60 @@ class World
 
   private
 
-    def update_neighbours
-    for x in 0..@width-1
-      for y in 0..@height-1
-        @cells[x][y].set_neighbours(neighbours(x,y))
+  # Private: Updates Neighbours
+  #
+  #
+  def update_neighbours
+    (0..@width - 1).each do |x|
+      (0..@height - 1).each do |y|
+        @cells[x][y].set_neighbours(neighbours(x, y))
       end
     end
   end
 
-  def neighbours(x,y)
+  # Private: finds the amount of neighbours that a certain cell has
+  #
+  #
+  def neighbours(x, y)
     neighbours = 0
-    if cell_alive_and_kicking(x-1,y)
-      neighbours += 1
-    end
-     if cell_alive_and_kicking(x-1,y+1)
-      neighbours += 1
-    end
-     if cell_alive_and_kicking(x-1,y-1)
-      neighbours += 1
-    end
-     if cell_alive_and_kicking(x+1,y)
-      neighbours += 1
-    end
-     if cell_alive_and_kicking(x+1,y+1)
-      neighbours += 1
-    end
-     if cell_alive_and_kicking(x+1,y-1)
-      neighbours += 1
-    end
-     if cell_alive_and_kicking(x,y-1)
-      neighbours += 1
-    end
-     if cell_alive_and_kicking(x,y+1)
-      neighbours += 1
-    end
-    return neighbours
+    neighbours += 1 if cell_alive_and_kicking(x - 1, y)
+    neighbours += 1 if cell_alive_and_kicking(x - 1, y + 1)
+    neighbours += 1 if cell_alive_and_kicking(x - 1, y - 1)
+    neighbours += 1 if cell_alive_and_kicking(x + 1, y)
+    neighbours += 1 if cell_alive_and_kicking(x + 1, y + 1)
+    neighbours += 1 if cell_alive_and_kicking(x + 1, y - 1)
+    neighbours += 1 if cell_alive_and_kicking(x, y - 1)
+    neighbours += 1 if cell_alive_and_kicking(x, y + 1)
+    neighbours
   end
 
-  def cell_alive_and_kicking(x,y)
+  # Private: Checks if the value is within the scope of the world,
+  # and if it's alive
+  #
+  # x, y - coordinates of the cell
+  #
+  #
+  def cell_alive_and_kicking(x, y)
     begin
-      if x < 0 or x > @width or y < 0 or y > @height
-        return false
-      end
-      if @cells[x][y].is_a?(Cell)
-        return @cells[x][y].alive?
-      end
+      false if x < 0 || x > @width || y < 0 || y > @height
+      return @cells[x][y].alive? if @cells[x][y].is_a?(Cell)
     rescue
-      return false
+      false
     end
-    return false
+    false
   end
-
+  
+  # Private: Produces the next generation of the world
+  #
+  #
+  def next_iteration
+    @cells.each do |row|
+      row.each do |col|
+        col.kill if col.neighbours < 2
+        col.kill if col.neighbours > 3
+        col.born if col.neighbours == 3
+      end
+    end
+    update_neighbours
+  end
 end
