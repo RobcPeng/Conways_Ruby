@@ -8,7 +8,7 @@ Runs in command line right now
   Use gosu to impliment a visual portion of it
   Catch up on the RSPECS
   
-How to Play!
+#How to Play!
 in command line on Ubuntu
 
 irb
