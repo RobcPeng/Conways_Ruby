@@ -2,6 +2,7 @@ require 'rspec'
 require_relative 'Conways.rb'
 
 describe 'Game of Life' do
+  
   context 'creating a world' do
     x = 0 # values to create world
     y = 0

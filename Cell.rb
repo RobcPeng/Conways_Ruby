@@ -32,5 +32,4 @@ class Cell
   def born
     @alive = true
   end
-
 end
