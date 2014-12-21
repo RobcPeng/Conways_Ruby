@@ -5,7 +5,9 @@ Conways game of life in ruby
 
 Runs in command line right now 
 #TODO 
+  
   Use gosu to impliment a visual portion of it
+  
   Catch up on the RSPECS
   
 #How to Play!
