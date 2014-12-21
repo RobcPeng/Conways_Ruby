@@ -15,10 +15,10 @@ class World
   end
 
   def populate(density) #any value above 100 will print the entire graph to be true
-    game_density = (@width * @height * density) * 0.01
+    game_density = density
     @cells.each do |row|
       row.each do |col|
-        if rand(100) < game_density
+        if rand(100) > game_density
           col.toggle
         end
       end
@@ -43,7 +43,7 @@ class World
       print "\n"
     end
     print "Amount alive is : #{alive} \n"
-    print "Amount dead is : #{dead}" 
+    print "Amount dead is : #{dead} \n" 
   end
 
   def next_iteration
